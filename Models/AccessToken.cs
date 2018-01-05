@@ -14,7 +14,7 @@ namespace ContactsWebApi.Models {
         [JsonProperty("resource")]
         public string Resource;
         [JsonProperty("access_token")]
-        public string _AccessToken;
+        public string Token;
         public AccessToken() {}
     }
 }

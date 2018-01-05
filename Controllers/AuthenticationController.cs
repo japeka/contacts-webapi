@@ -17,7 +17,7 @@ namespace ContactsWebApi.Controllers
               var token = tokenService.GetToken(loginCredentials);
               if (token.Result == null) {
                  return StatusCode(401); 
-              } else {
+              } else { 
                  return new JsonResult(token.Result);
               }
             }

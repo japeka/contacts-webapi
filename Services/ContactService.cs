@@ -29,17 +29,21 @@ namespace ContactsWebApi.Services
         public int AddContact(Contact contact)
         {
             if (contact.Avatar == null) {
-               var shared = new SharedClass();
-               contact.Avatar = shared.GetAvatarPicture(contact.Gender);
+               var avatar = new AvatarGenerator();
+               contact.Avatar = avatar.GetAvatarPicture(contact.Gender);
             }
             return _contactRepository.Add(contact);
         }
 
         public Tuple<int,Contact> UpdateContact(long id, Contact contact) {
+            if (contact == null || contact.Id != id) {
+                return new Tuple<int, Contact>(0, null); 
+            }
             return _contactRepository.Update(id, contact);
         }
 
         public Tuple<int,Contact> DeleteContact(long id)  {
+
             return _contactRepository.Delete(id);
         }
 

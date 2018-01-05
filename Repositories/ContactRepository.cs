@@ -44,9 +44,6 @@ namespace ContactsWebApi.Repositories
 
         //Update An Existing Contact        
         public Tuple<int, Contact> Update(long id, Contact contact) {
-            if (contact == null || contact.Id != id) {
-              return new Tuple<int,Contact>(0,null); //Bad Request 0, null
-            }
 
             //Find the contact
             var _contact = _context.Contacts.FirstOrDefault(t => t.Id == id);
@@ -60,7 +57,7 @@ namespace ContactsWebApi.Repositories
             _contact.Phone = contact.Phone;
             _contact.City = contact.City;
             _contact.StreetAddress = contact.StreetAddress;
-            _contact.Avatar = contact.Gender == _contact.Gender ? contact.Avatar : new SharedClass().GetAvatarPicture(contact.Gender); 
+            _contact.Avatar = contact.Gender == _contact.Gender ? contact.Avatar : new AvatarGenerator().GetAvatarPicture(contact.Gender); 
             _contact.Gender = contact.Gender;
             _context.Contacts.Update(_contact);
 
@@ -68,6 +65,7 @@ namespace ContactsWebApi.Repositories
             return _context.SaveChanges() > 0  
                 ? new Tuple<int, Contact>(1, _contact) 
                     : new Tuple<int, Contact>(-2, null);
+
         }
 
         //Delete an existing contact
@@ -76,6 +74,7 @@ namespace ContactsWebApi.Repositories
             if (contact == null) {
                 return new Tuple<int, Contact>(0, null); //0 not found
             }
+
             _context.Contacts.Remove(contact);
             int ret = _context.SaveChanges();
             return ret > 0

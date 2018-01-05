@@ -9,25 +9,25 @@ namespace ContactsWebApi.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly AzureSettings settings;
+        private readonly AzureSettings _settings;
         public TokenService()
         {
-            settings = new AzureSettings();
+            _settings = new AzureSettings();
         }
 
         public async Task<AccessToken> GetToken(LoginCredentials loginCredentials)
         {
-            if (settings != null && settings.DirectoryId != null) {
+            if (_settings?.DirectoryId != null) { 
                 var authenticationParams = new List<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("client_id", settings.ApplicationId),
-                    new KeyValuePair<string, string>("resource", settings.Resource),
+                    new KeyValuePair<string, string>("client_id", _settings.ApplicationId),
+                    new KeyValuePair<string, string>("resource", _settings.Resource),
                     new KeyValuePair<string, string>("username", loginCredentials.Username),
                     new KeyValuePair<string, string>("password", loginCredentials.Password),
-                    new KeyValuePair<string, string>("grant_type", settings.GrantType),
-                    new KeyValuePair<string, string>("client_secret", settings.Key)
+                    new KeyValuePair<string, string>("grant_type", _settings.GrantType),
+                    new KeyValuePair<string, string>("client_secret", _settings.Key)
                 };
-                return await this.RequestAccessToken(authenticationParams, settings.EndPoint);
+                return await this.RequestAccessToken(authenticationParams, _settings.EndPoint);
             } else {
                 return null;
             }
