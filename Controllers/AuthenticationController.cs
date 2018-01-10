@@ -22,6 +22,5 @@ namespace ContactsWebApi.Controllers
               }
             }
         }
-
     }
 }
